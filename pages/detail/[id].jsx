@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Detail() {
