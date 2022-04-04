@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function mypokemons() {
+export default function Mypokemons() {
   const [myPokeList, setMyPokeList] = useState([]);
   const [pageReady, setPageReady] = useState(false);
 
