@@ -18,9 +18,11 @@ export default function Navbar() {
                 Home
               </a>
             </Link>
-            <a className="nav-link" href="#">
-              My Pokemon's
-            </a>
+            <Link href="/mypokemons">
+              <a className="nav-link" aria-current="page" href="#">
+                My Pokemons
+              </a>
+            </Link>
           </div>
         </div>
       </div>

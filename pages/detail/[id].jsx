@@ -54,15 +54,19 @@ export default function Detail() {
     let notif;
     if (!nickname.current.value) {
       notif = "Nickname can`t empty!";
-      document.getElementById("testKlik").disabled = true;
+      document.getElementById("submitToMyPoke").disabled = true;
     } else {
-      let findData = myPokeList.findIndex((i) => i.nickname.toLowerCase() === nickname.current.value.toLowerCase());
-      if (findData != -1) {
-        notif = "Already Nickname!";
-      } else {
+      if (!myPokeList) {
         notif = "Good Nickname";
+      } else {
+        let findData = myPokeList.findIndex((i) => i.nickname.toLowerCase() === nickname.current.value.toLowerCase());
+        if (findData != -1) {
+          notif = "Already Nickname!";
+        } else {
+          notif = "Good Nickname";
+        }
       }
-      document.getElementById("testKlik").disabled = false;
+      document.getElementById("submitToMyPoke").disabled = false;
     }
     document.getElementById("notif").innerHTML = notif;
   };
@@ -97,10 +101,18 @@ export default function Detail() {
     let bsAlert = new bootstrap.Toast(document.getElementById("liveToast"), {});
     let gotchaSuccessModal = new bootstrap.Modal(document.getElementById("testModal"), {});
     gotchaSuccessModal.show();
-    document.getElementById("testKlik").addEventListener("click", () => {
-      let findData = myPokeList.findIndex((i) => i.nickname.toLowerCase() === nickname.current.value.toLowerCase());
-      if (findData != -1) {
-        notif = "Nickname must unique!";
+    document.getElementById("submitToMyPoke").addEventListener("click", () => {
+      if (myPokeList) {
+        let findData = myPokeList.findIndex((i) => i.nickname.toLowerCase() === nickname.current.value.toLowerCase());
+        if (findData != -1) {
+          notif = "Nickname must unique!";
+        } else {
+          detailCharPokemon.id_collect = Math.floor(Math.random() * 1000 + 1);
+          detailCharPokemon.nickname = nickname.current.value;
+          addToMyPoke(detailCharPokemon);
+          gotchaSuccessModal.hide();
+          bsAlert.show();
+        }
       } else {
         detailCharPokemon.id_collect = Math.floor(Math.random() * 1000 + 1);
         detailCharPokemon.nickname = nickname.current.value;
@@ -110,7 +122,7 @@ export default function Detail() {
       }
       document.getElementById("notif").innerHTML = notif;
     });
-    document.getElementById("testKlik").disabled = true;
+    document.getElementById("submitToMyPoke").disabled = true;
   };
 
   const btnGotcha = () => {
@@ -118,7 +130,7 @@ export default function Detail() {
     let gotchaProcessingModal = new bootstrap.Modal(document.getElementById("gotchaProcessing"), {});
     let gotchaFailedModal = new bootstrap.Modal(document.getElementById("gotchaFailed"), {});
     setTimeout(() => {
-      if (getGacha >= 75) {
+      if (75 >= 75) {
         gotchaProcessingModal.hide();
         modalGetGotcha();
       } else {
@@ -200,11 +212,11 @@ export default function Detail() {
       <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: "11" }}>
         <div id="liveToast" className="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
           <div className="toast-header">
-            <strong className="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
+            <strong className="me-auto">Notification</strong>
+            <small>Just Now</small>
             <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
-          <div className="toast-body">Hello, world! This is a toast message.</div>
+          <div className="toast-body">Success Add Pokemon</div>
         </div>
       </div>
 
@@ -244,7 +256,7 @@ export default function Detail() {
                   <label htmlFor="nickname" className="col-form-label">
                     Nickname:
                   </label>
-                  <input type="text" className="form-control" id="nickname" ref={nickname} onKeyUp={() => checkNikname()} />
+                  <input type="text" className="form-control" id="nickname" ref={nickname} onChange={() => checkNikname()} />
                 </div>
                 <div id="notif"></div>
               </div>
@@ -252,7 +264,7 @@ export default function Detail() {
               ""
             )}
             <div className="modal-footer">
-              <button type="sumbit" className="btn btn-primary" id="testKlik">
+              <button type="sumbit" className="btn btn-primary" id="submitToMyPoke">
                 Save changes
               </button>
             </div>
