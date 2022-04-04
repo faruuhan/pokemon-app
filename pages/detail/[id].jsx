@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Detail() {
@@ -112,7 +113,7 @@ export default function Detail() {
     let gotchaProcessingModal = new bootstrap.Modal(document.getElementById("gotchaProcessing"), {});
     let gotchaFailedModal = new bootstrap.Modal(document.getElementById("gotchaFailed"), {});
     setTimeout(() => {
-      if (75 >= 75) {
+      if (getGacha >= 75) {
         gotchaProcessingModal.hide();
         modalGetGotcha();
       } else {
@@ -130,7 +131,7 @@ export default function Detail() {
           {pageReady ? (
             <div className="col-lg-12 d-flex">
               <div className="card shadow border-0 d-flex flex-column mx-auto" style={{ width: "18rem" }}>
-                <img src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} className="mx-auto my-4" />
+                <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} className="mx-auto my-4" />
                 <div className="card-body">
                   <h3 className="card-title text-center">
                     {detailCharPokemon.name[0].toUpperCase() + detailCharPokemon.name.slice(1)} <span className="text-muted">{`#${String(detailCharPokemon.id).padStart(3, "0")}`}</span>
@@ -227,7 +228,7 @@ export default function Detail() {
             {pageReady ? (
               <div className="modal-body">
                 <div className="d-flex flex-column">
-                  <img src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} className="mx-auto my-4" />
+                  <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} className="mx-auto my-4" />
                   <h3 className="text-center">
                     {detailCharPokemon.name[0].toUpperCase() + detailCharPokemon.name.slice(1)} <span className="text-muted">{`#${String(detailCharPokemon.id).padStart(3, "0")}`}</span>
                   </h3>
