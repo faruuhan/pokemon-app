@@ -29,12 +29,11 @@ export default function Home() {
   return (
     <Layout>
       <div className="container">
-        <h1 className="text-center text-light">Pokemon's</h1>
+        <h1 className="text-center text-dark">Pokemon's</h1>
         <div className="row gap-3 my-5 justify-content-center">
           {pageReady
             ? allPokemonList.map((char) => (
                 <div className="card shadow border-0 text-center" style={{ width: "10rem" }} key={char.id}>
-                  <p className="text-end fw-bolder">30</p>
                   <div className="card-body">
                     <Link href={`detail/${char.id}`}>
                       <a href="">

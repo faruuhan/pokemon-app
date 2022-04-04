@@ -37,9 +37,6 @@ export default function Detail() {
       .catch((err) => {
         console.log(err);
       });
-
-    // const res = await fetch("https://pokeapi.co/api/v2/pokemon/" + id);
-    // const data = await res.json();
   };
 
   const type = typesChar.map((res) => {
@@ -72,28 +69,12 @@ export default function Detail() {
   };
 
   const addToMyPoke = (items) => {
-    let notif;
-    if (!nickname.current.value) {
-      notif = "Nickname can`t empty!";
+    if (myPokeList) {
+      myPokeList.push(items);
+      localStorage.setItem("myPokes", JSON.stringify(myPokeList));
     } else {
-      if (myPokeList) {
-        let findData = myPokeList.findIndex((i) => i.nickname.toLowerCase() === nickname.current.value.toLowerCase());
-        if (findData != -1) {
-          notif = "Nickname must unique!";
-        } else {
-          myPokeList.push(items);
-          localStorage.setItem("myPokes", JSON.stringify(myPokeList));
-          notif = "";
-          nickname.current.value = "";
-        }
-      } else {
-        localStorage.setItem("myPokes", JSON.stringify([items]));
-        notif = "";
-        nickname.current.value = "";
-      }
+      localStorage.setItem("myPokes", JSON.stringify([items]));
     }
-    document.getElementById("notif").innerHTML = notif;
-    console.log(items);
   };
 
   const modalGetGotcha = () => {
@@ -112,6 +93,7 @@ export default function Detail() {
           addToMyPoke(detailCharPokemon);
           gotchaSuccessModal.hide();
           bsAlert.show();
+          notif = "";
         }
       } else {
         detailCharPokemon.id_collect = Math.floor(Math.random() * 1000 + 1);
@@ -119,6 +101,7 @@ export default function Detail() {
         addToMyPoke(detailCharPokemon);
         gotchaSuccessModal.hide();
         bsAlert.show();
+        notif = "";
       }
       document.getElementById("notif").innerHTML = notif;
     });
@@ -148,7 +131,6 @@ export default function Detail() {
           {pageReady ? (
             <div className="col-lg-12 d-flex">
               <div className="card shadow border-0 d-flex flex-column mx-auto" style={{ width: "18rem" }}>
-                <div className="text-end fw-bolder me-3">30</div>
                 <img src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} className="mx-auto my-4" />
                 <div className="card-body">
                   <h3 className="card-title text-center">
