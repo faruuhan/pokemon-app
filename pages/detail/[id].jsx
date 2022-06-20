@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function Detail() {
   let nickname = React.createRef();
   const router = useRouter();
-  const { id } = router.query;
+  const { id } = router?.query;
   const [detailCharPokemon, setCharPokemon] = useState([]);
   const [typesChar, setTypesChar] = useState([]);
   const [statsChar, setStatsChar] = useState([]);
@@ -16,27 +16,27 @@ export default function Detail() {
   const [pageReady, setPageReady] = useState(false);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (router.isReady) {
+      fetchData();
+    }
+  }, [router.isReady]);
 
-  const fetchData = () => {
-    let getMyPoke = JSON.parse(localStorage.getItem("myPokes"));
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-      .then((res) => {
-        res.json().then((data) => {
-          setCharPokemon(data);
-          const dataTypes = data.types.map((rslt) => {
-            return rslt.type;
-          });
-          setTypesChar(dataTypes);
-          setStatsChar(data.stats);
-          setMyPokeList(getMyPoke);
-          setPageReady(true);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+  const fetchData = async () => {
+    setMyPokeList(JSON.parse(localStorage.getItem("myPokes")));
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+
+    if (response.ok) {
+      const data = await response.json();
+      const dataTypes = data.types.map((rslt) => {
+        return rslt.type;
       });
+      setCharPokemon(data);
+      setTypesChar(dataTypes);
+      setStatsChar(data.stats);
+      setPageReady(true);
+    } else {
+      console.log(response.status);
+    }
   };
 
   const type = typesChar.map((res) => {
@@ -113,7 +113,7 @@ export default function Detail() {
     let gotchaProcessingModal = new bootstrap.Modal(document.getElementById("gotchaProcessing"), {});
     let gotchaFailedModal = new bootstrap.Modal(document.getElementById("gotchaFailed"), {});
     setTimeout(() => {
-      if (getGacha >= 75) {
+      if (getGacha >= 50) {
         gotchaProcessingModal.hide();
         modalGetGotcha();
       } else {
@@ -131,7 +131,9 @@ export default function Detail() {
           {pageReady ? (
             <div className="col-lg-12 d-flex">
               <div className="card shadow border-0 d-flex flex-column mx-auto" style={{ width: "18rem" }}>
-                <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} className="mx-auto my-4" />
+                <div className="d-flex mx-auto mt-3">
+                  <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} />
+                </div>
                 <div className="card-body">
                   <h3 className="card-title text-center">
                     {detailCharPokemon.name[0].toUpperCase() + detailCharPokemon.name.slice(1)} <span className="text-muted">{`#${String(detailCharPokemon.id).padStart(3, "0")}`}</span>
@@ -228,7 +230,9 @@ export default function Detail() {
             {pageReady ? (
               <div className="modal-body">
                 <div className="d-flex flex-column">
-                  <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} className="mx-auto my-4" />
+                  <div className="d-flex mx-auto">
+                    <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${String(detailCharPokemon.id).padStart(3, "0")}.png`} alt="" height={150} width={150} />
+                  </div>
                   <h3 className="text-center">
                     {detailCharPokemon.name[0].toUpperCase() + detailCharPokemon.name.slice(1)} <span className="text-muted">{`#${String(detailCharPokemon.id).padStart(3, "0")}`}</span>
                   </h3>
