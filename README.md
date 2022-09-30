@@ -1,12 +1,16 @@
 
 ## Tech Stack
 
-**Front-End:** NextJs, JavaScript, Bootstrap CSS
+[![My Skills](https://skills.thijs.gg/icons?i=js,react,next,bootstrap,redux,vercel&theme=dark)](https://skills.thijs.gg)
 
 ## Features
 
+- Homepage
+</br> Showing list Pokemon
 - Catch pokemon with gatcha
-- Delete mypokemon from list
+</br> We can catch pokemon with level success 50%
+- My Pokemon
+</br> Showing list my pokemon after catch
 
 
 ## Run Locally
